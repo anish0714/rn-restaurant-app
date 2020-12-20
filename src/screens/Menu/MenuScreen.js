@@ -18,13 +18,12 @@ import { connect } from "react-redux";
 //ACTIONS
 import { getSelectedFoodItem } from "../../actions/appAction";
 
+//CONSTANTS
 const { width, height } = Dimensions.get("window");
 const SCREEN_WIDTH = width < height ? width : height;
 const recipeNumColums = 2;
-
 //Margin
 const RECIPE_ITEM_MARGIN = 5;
-
 const IMAGE_WIDTH =
   (SCREEN_WIDTH - (recipeNumColums + 1) * RECIPE_ITEM_MARGIN) / recipeNumColums;
 

@@ -14,11 +14,11 @@ import { connect } from "react-redux";
 const MainApp = ({ authReducer: { showIntroSlider, isLogin } }) => {
   return (
     <>
-      {/* <SafeAreaView />
+      <SafeAreaView />
       <StatusBar barStyle={"dark-content"} />
-      <AppNavigation /> */}
+      <AppNavigation />
 
-      <StatusBar
+      {/* <StatusBar
         barStyle={!showIntroSlider ? "light-content" : "dark-content"}
       />
       {showIntroSlider ? <SafeAreaView /> : null}
@@ -28,7 +28,7 @@ const MainApp = ({ authReducer: { showIntroSlider, isLogin } }) => {
         <AuthNavigation />
       ) : (
         <AppNavigation />
-      )}
+      )} */}
     </>
   );
 };

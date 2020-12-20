@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import {
   StyleSheet,
@@ -8,11 +9,25 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+//NAVIGATION
+import { useNavigation } from "@react-navigation/native";
+//ACTIONS
+import { getSelectedFoodItem } from "../../actions/appAction/";
+//REDUX
+import { connect } from "react-redux";
 
 //COMPONENT-----------------------> RENDER-ITEMS
-const RenderItem = ({ imageUrl, title }) => {
+const RenderItem = ({ imageUrl, title, getSelectedFoodItem }) => {
+  const navigation = useNavigation();
+
   return (
-    <TouchableOpacity style={styles.imageContainer}>
+    <TouchableOpacity
+      style={styles.imageContainer}
+      onPress={() => {
+        getSelectedFoodItem(title);
+        navigation.navigate("Category", [{ title }]);
+      }}
+    >
       <Image source={{ url: imageUrl }} style={styles.image} />
       <Text>{title}</Text>
     </TouchableOpacity>
@@ -20,7 +35,10 @@ const RenderItem = ({ imageUrl, title }) => {
 };
 
 //MAIN COMPONENT ----------------------->
-const PopularCategories = ({ categoriesData }) => {
+const PopularCategories = ({
+  getSelectedFoodItem,
+  appReducer: { categoriesData },
+}) => {
   return (
     <View>
       <Text style={styles.headingText}>Popular Categories</Text>
@@ -30,14 +48,31 @@ const PopularCategories = ({ categoriesData }) => {
         data={categoriesData}
         keyExtractor={(item) => item.categoryId.toString()}
         renderItem={({ item }) => {
-          return <RenderItem imageUrl={item.imageUrl} title={item.title} />;
+          return (
+            <RenderItem
+              imageUrl={item.imageUrl}
+              title={item.title}
+              getSelectedFoodItem={getSelectedFoodItem}
+            />
+          );
         }}
       />
     </View>
   );
 };
 
-export default PopularCategories;
+PopularCategories.prototypes = {
+  getSelectedFoodItem: PropTypes.func.isRequired,
+  appReducer: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  appReducer: state.appReducer,
+});
+
+export default connect(mapStateToProps, { getSelectedFoodItem })(
+  PopularCategories
+);
 
 const styles = StyleSheet.create({
   imageContainer: {

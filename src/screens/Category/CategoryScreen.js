@@ -1,72 +1,45 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  Image,
-  Dimensions,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
+import { View, StyleSheet, FlatList, Image, Dimensions } from "react-native";
+//COMPONENT
+import StackScreenHeader from "../../components/StackScreenHeader/StackScreenHeader";
+import CategoryCard from "../../components/CategoryCard/CategoryCard";
 //REDUX
 import { connect } from "react-redux";
 
 const CategoryScreen = ({ route, appReducer: { selectedCategory } }) => {
   const { title } = route.params[0];
   return (
-    <View>
-      <View style={{ backgroundColor: "white", paddingBottom: 15 }}>
-        <Text style={{ alignSelf: "center", fontSize: 17 }}>{title}</Text>
-        <View
-          style={{
-            position: "absolute",
-            flexDirection: "row",
-            alignItems: "center",
-            marginLeft: 10,
+    <View style={styles.container}>
+      <StackScreenHeader title={title} />
+      {selectedCategory?.length ? (
+        <FlatList
+          data={selectedCategory}
+          keyExtractor={(item) => item.foodId.toString()}
+          renderItem={({ item }) => {
+            return (
+              <CategoryCard
+                title={item.title}
+                description={item.description}
+                cost={item.cost}
+                photo_url={item.photo_url}
+                photosArray={item.photosArray}
+              />
+            );
           }}
-        >
-          <Ionicons name="ios-arrow-back" size={25} color="black" />
-          <Text style={{ marginLeft: 5 }}>back</Text>
-        </View>
-      </View>
-      <FlatList
-        data={selectedCategory}
-        keyExtractor={(item) => item.foodId.toString()}
-        renderItem={({ item }) => {
-          return (
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-around",
-                marginBottom: 20,
-                backgroundColor: 'white'
-              }}
-            >
-              <View
-                style={{
-                  width: Dimensions.get("window").width / 1.5,
-                  justifyContent: "space-between"
-                }}
-              >
-                <Text>{item.title}</Text>
-                <Text ellipsizeMode="tail" numberOfLines={2}>
-                  {item.description}
-                </Text>
-                <Text>INR {item.cost}</Text>
-              </View>
-              <View>
-                <Image
-                  style={{ height: 120, width: 120 }}
-                  source={{ uri: item.photo_url }}
-                />
-              </View>
-            </View>
-          );
-        }}
-      />
+        />
+      ) : (
+        <Image
+          resizeMode="cover"
+          source={{
+            uri:
+              "https://cdn.dribbble.com/users/436620/screenshots/8386175/no_results_found__4x.jpg",
+          }}
+          style={styles.image}
+        />
+      )}
     </View>
   );
 };
@@ -80,4 +53,13 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps)(CategoryScreen);
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  image: {
+    marginTop: 10,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").width,
+  },
+});

@@ -2,7 +2,11 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons, Feather } from "@expo/vector-icons";
 
-const AppHeader = ({ title, navigation }) => {
+import { useNavigation } from "@react-navigation/native";
+
+const AppHeader = ({ title }) => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.headerContainer}>
       <TouchableOpacity onPress={() => navigation.openDrawer()}>

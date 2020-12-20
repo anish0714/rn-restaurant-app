@@ -40,7 +40,7 @@ const DrawerBody = ({ navigation }) => {
           )}
           label="SEARCH"
           onPress={() => {
-            navigation.closeDrawer();
+            navigation.navigate("Search");
           }}
         />
         <DrawerItem

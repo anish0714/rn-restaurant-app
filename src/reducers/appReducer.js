@@ -1,5 +1,6 @@
 import { SET_SELECTED_CATEGORY_DATA } from "../actions/types";
 
+
 import { categories, foodItem } from "../data/dataArrays";
 const initialState = {
   categoriesData: categories,

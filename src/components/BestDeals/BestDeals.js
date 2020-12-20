@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import PropTypes from "prop-types";
+
 import {
   StyleSheet,
   Text,
@@ -8,9 +10,11 @@ import {
 } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 
-import { categories } from "../../data/dataArrays";
-
+//CONSTANT
 const { width } = Dimensions.get("window");
+
+//REDUX
+import { connect } from "react-redux";
 
 const RenderItem = ({ item }) => {
   return (
@@ -24,7 +28,7 @@ const RenderItem = ({ item }) => {
   );
 };
 
-const BestDeals = ({ categoriesData }) => {
+const BestDeals = ({ appReducer: { categoriesData } }) => {
   const carouselRef = useRef(null);
   const [slider1ActiveSlide, setSlider1ActiveSlide] = useState(0);
 
@@ -72,7 +76,15 @@ const BestDeals = ({ categoriesData }) => {
   );
 };
 
-export default BestDeals;
+BestDeals.prototypes = {
+  appReducer: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  appReducer: state.appReducer,
+});
+
+export default connect(mapStateToProps)(BestDeals);
 
 const styles = StyleSheet.create({
   //------------------------------------->  RENDER ITEM STYLES

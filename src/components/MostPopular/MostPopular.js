@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import {
   StyleSheet,
   Text,
@@ -10,6 +12,9 @@ import {
 } from "react-native";
 
 import { FontAwesome } from "@expo/vector-icons";
+
+//REDUX
+import { connect } from "react-redux";
 
 const RenderItem = ({ photo_url, title, cost }) => {
   return (
@@ -26,7 +31,7 @@ const RenderItem = ({ photo_url, title, cost }) => {
   );
 };
 
-const MostPopular = ({ foodItemData }) => {
+const MostPopular = ({ appReducer: { foodItemData } }) => {
   return (
     <FlatList
       data={foodItemData}
@@ -47,7 +52,15 @@ const MostPopular = ({ foodItemData }) => {
   );
 };
 
-export default MostPopular;
+MostPopular.prototypes = {
+  appReducer: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  appReducer: state.appReducer,
+});
+
+export default connect(mapStateToProps)(MostPopular);
 
 const styles = StyleSheet.create({
   //------------------------------------->  RENDER ITEM STYLES
